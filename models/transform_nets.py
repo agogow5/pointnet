@@ -10,11 +10,11 @@ import tf_util
 def input_transform_net(point_cloud, is_training, bn_decay=None, K=3):
     """ Input (XYZ) Transform Net, input is BxNx3 gray image
         Return:
-            Transformation matrix of size 3xK """
+            Transformation matrix of size 3xK   这里的 K 是3 """
     batch_size = point_cloud.get_shape()[0].value
     num_point = point_cloud.get_shape()[1].value
 
-    input_image = tf.expand_dims(point_cloud, -1)
+    input_image = tf.expand_dims(point_cloud, -1)  # # 增加一个维度 BxNx3x1
     net = tf_util.conv2d(input_image, 64, [1,3],
                          padding='VALID', stride=[1,1],
                          bn=True, is_training=is_training,

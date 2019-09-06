@@ -7,12 +7,12 @@ import socket
 import importlib
 import os
 import sys
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-sys.path.append(BASE_DIR)
-sys.path.append(os.path.join(BASE_DIR, 'models'))
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # #BASE_DIR = 'pointnet'
+sys.path.append(BASE_DIR)  # #pointnet添加到当前文件的环境目录中
+sys.path.append(os.path.join(BASE_DIR, 'models'))  # # pointnet/models 添加到环境目录中
 sys.path.append(os.path.join(BASE_DIR, 'utils'))
 import provider
-import tf_util
+import tf_util  # #这里 表示 utils/tf_util 由于 sys.path.append 的时候动态修改了路径
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--gpu', type=int, default=0, help='GPU to use [default: GPU 0]')
@@ -39,14 +39,15 @@ OPTIMIZER = FLAGS.optimizer
 DECAY_STEP = FLAGS.decay_step
 DECAY_RATE = FLAGS.decay_rate
 
-MODEL = importlib.import_module(FLAGS.model) # import network module
+MODEL = importlib.import_module(FLAGS.model)  # import network module # 动态导入模块
 MODEL_FILE = os.path.join(BASE_DIR, 'models', FLAGS.model+'.py')
+# # 备份
 LOG_DIR = FLAGS.log_dir
 if not os.path.exists(LOG_DIR): os.mkdir(LOG_DIR)
-os.system('cp %s %s' % (MODEL_FILE, LOG_DIR)) # bkp of model def
-os.system('cp train.py %s' % (LOG_DIR)) # bkp of train procedure
-LOG_FOUT = open(os.path.join(LOG_DIR, 'log_train.txt'), 'w')
-LOG_FOUT.write(str(FLAGS)+'\n')
+os.system('cp %s %s' % (MODEL_FILE, LOG_DIR))  # bkp of model def # 备份模块定义
+os.system('cp train.py %s' % (LOG_DIR))  # bkp of train procedure # 备份训练过程
+LOG_FOUT = open(os.path.join(LOG_DIR, 'log_train.txt'), 'w')  # # w 表示： 如果不存在则新建，如果存在则清空。最后再进行写入
+LOG_FOUT.write(str(FLAGS)+'\n')  # # 在 log_train.txt 中将参数情况记录下来。
 
 MAX_NUM_POINT = 2048
 NUM_CLASSES = 40
@@ -60,9 +61,10 @@ HOSTNAME = socket.gethostname()
 
 # ModelNet40 official train/test split
 TRAIN_FILES = provider.getDataFiles( \
-    os.path.join(BASE_DIR, 'data/modelnet40_ply_hdf5_2048/train_files.txt'))
+    os.path.join(BASE_DIR, 'data/modelnet40_ply_hdf5_2048/train_files.txt'))  # #需要注意：在 linux 和 win 两种情况下路径的不同写法。 这里是适用于 linux 的写法。
 TEST_FILES = provider.getDataFiles(\
     os.path.join(BASE_DIR, 'data/modelnet40_ply_hdf5_2048/test_files.txt'))
+
 
 def log_string(out_str):
     LOG_FOUT.write(out_str+'\n')
@@ -80,6 +82,7 @@ def get_learning_rate(batch):
     learning_rate = tf.maximum(learning_rate, 0.00001) # CLIP THE LEARNING RATE!
     return learning_rate        
 
+
 def get_bn_decay(batch):
     bn_momentum = tf.train.exponential_decay(
                       BN_INIT_DECAY,
@@ -90,10 +93,11 @@ def get_bn_decay(batch):
     bn_decay = tf.minimum(BN_DECAY_CLIP, 1 - bn_momentum)
     return bn_decay
 
+
 def train():
     with tf.Graph().as_default():
         with tf.device('/gpu:'+str(GPU_INDEX)):
-            pointclouds_pl, labels_pl = MODEL.placeholder_inputs(BATCH_SIZE, NUM_POINT)
+            pointclouds_pl, labels_pl = MODEL.placeholder_inputs(BATCH_SIZE, NUM_POINT)  # # placeholder_inputs 是 models 中的一个函数
             is_training_pl = tf.placeholder(tf.bool, shape=())
             print(is_training_pl)
             
@@ -132,7 +136,7 @@ def train():
         sess = tf.Session(config=config)
 
         # Add summary writers
-        #merged = tf.merge_all_summaries()
+        # merged = tf.merge_all_summaries()
         merged = tf.summary.merge_all()
         train_writer = tf.summary.FileWriter(os.path.join(LOG_DIR, 'train'),
                                   sess.graph)
@@ -142,7 +146,7 @@ def train():
         init = tf.global_variables_initializer()
         # To fix the bug introduced in TF 0.12.1 as in
         # http://stackoverflow.com/questions/41543774/invalidargumenterror-for-tensor-bool-tensorflow-0-12-1
-        #sess.run(init)
+        # sess.run(init)
         sess.run(init, {is_training_pl: True})
 
         ops = {'pointclouds_pl': pointclouds_pl,
@@ -165,7 +169,6 @@ def train():
             if epoch % 10 == 0:
                 save_path = saver.save(sess, os.path.join(LOG_DIR, "model.ckpt"))
                 log_string("Model saved in file: %s" % save_path)
-
 
 
 def train_one_epoch(sess, ops, train_writer):
@@ -254,7 +257,6 @@ def eval_one_epoch(sess, ops, test_writer):
     log_string('eval accuracy: %f'% (total_correct / float(total_seen)))
     log_string('eval avg class acc: %f' % (np.mean(np.array(total_correct_class)/np.array(total_seen_class,dtype=np.float))))
          
-
 
 if __name__ == "__main__":
     train()

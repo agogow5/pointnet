@@ -84,24 +84,28 @@ def jitter_point_cloud(batch_data, sigma=0.01, clip=0.05):
     jittered_data += batch_data
     return jittered_data
 
+
 def getDataFiles(list_filename):
     return [line.rstrip() for line in open(list_filename)]
+
 
 def load_h5(h5_filename):
     f = h5py.File(h5_filename)
     data = f['data'][:]
     label = f['label'][:]
-    return (data, label)
+    return data, label
+
 
 def loadDataFile(filename):
     return load_h5(filename)
+
 
 def load_h5_data_label_seg(h5_filename):
     f = h5py.File(h5_filename)
     data = f['data'][:]
     label = f['label'][:]
     seg = f['pid'][:]
-    return (data, label, seg)
+    return data, label, seg
 
 
 def loadDataFile_with_seg(filename):
