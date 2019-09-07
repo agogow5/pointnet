@@ -85,18 +85,11 @@ def conv1d(inputs,
   """
   with tf.variable_scope(scope) as sc:
     num_in_channels = inputs.get_shape()[-1].value
-    kernel_shape = [kernel_size,
-                    num_in_channels, num_output_channels]
-    kernel = _variable_with_weight_decay('weights',
-                                         shape=kernel_shape,
-                                         use_xavier=use_xavier,
-                                         stddev=stddev,
+    kernel_shape = [kernel_size, num_in_channels, num_output_channels]
+    kernel = _variable_with_weight_decay('weights', shape=kernel_shape, use_xavier=use_xavier, stddev=stddev,
                                          wd=weight_decay)
-    outputs = tf.nn.conv1d(inputs, kernel,
-                           stride=stride,
-                           padding=padding)
-    biases = _variable_on_cpu('biases', [num_output_channels],
-                              tf.constant_initializer(0.0))
+    outputs = tf.nn.conv1d(inputs, kernel, stride=stride, padding=padding)
+    biases = _variable_on_cpu('biases', [num_output_channels], tf.constant_initializer(0.0))
     outputs = tf.nn.bias_add(outputs, biases)
 
     if bn:
@@ -146,19 +139,12 @@ def conv2d(inputs,
   with tf.variable_scope(scope) as sc:
       kernel_h, kernel_w = kernel_size
       num_in_channels = inputs.get_shape()[-1].value
-      kernel_shape = [kernel_h, kernel_w,
-                      num_in_channels, num_output_channels]
-      kernel = _variable_with_weight_decay('weights',
-                                           shape=kernel_shape,
-                                           use_xavier=use_xavier,
-                                           stddev=stddev,
+      kernel_shape = [kernel_h, kernel_w, num_in_channels, num_output_channels]
+      kernel = _variable_with_weight_decay('weights', shape=kernel_shape, use_xavier=use_xavier, stddev=stddev,
                                            wd=weight_decay)
       stride_h, stride_w = stride
-      outputs = tf.nn.conv2d(inputs, kernel,
-                             [1, stride_h, stride_w, 1],
-                             padding=padding)
-      biases = _variable_on_cpu('biases', [num_output_channels],
-                                tf.constant_initializer(0.0))
+      outputs = tf.nn.conv2d(inputs, kernel, [1, stride_h, stride_w, 1], padding=padding)
+      biases = _variable_on_cpu('biases', [num_output_channels], tf.constant_initializer(0.0))
       outputs = tf.nn.bias_add(outputs, biases)
 
       if bn:
@@ -248,7 +234,6 @@ def conv2d_transpose(inputs,
         outputs = activation_fn(outputs)
       return outputs
 
-   
 
 def conv3d(inputs,
            num_output_channels,
@@ -286,19 +271,12 @@ def conv3d(inputs,
   with tf.variable_scope(scope) as sc:
     kernel_d, kernel_h, kernel_w = kernel_size
     num_in_channels = inputs.get_shape()[-1].value
-    kernel_shape = [kernel_d, kernel_h, kernel_w,
-                    num_in_channels, num_output_channels]
-    kernel = _variable_with_weight_decay('weights',
-                                         shape=kernel_shape,
-                                         use_xavier=use_xavier,
-                                         stddev=stddev,
+    kernel_shape = [kernel_d, kernel_h, kernel_w, num_in_channels, num_output_channels]
+    kernel = _variable_with_weight_decay('weights', shape=kernel_shape, use_xavier=use_xavier, stddev=stddev,
                                          wd=weight_decay)
     stride_d, stride_h, stride_w = stride
-    outputs = tf.nn.conv3d(inputs, kernel,
-                           [1, stride_d, stride_h, stride_w, 1],
-                           padding=padding)
-    biases = _variable_on_cpu('biases', [num_output_channels],
-                              tf.constant_initializer(0.0))
+    outputs = tf.nn.conv3d(inputs, kernel, [1, stride_d, stride_h, stride_w, 1], padding=padding)
+    biases = _variable_on_cpu('biases', [num_output_channels], tf.constant_initializer(0.0))
     outputs = tf.nn.bias_add(outputs, biases)
     
     if bn:
@@ -308,6 +286,7 @@ def conv3d(inputs,
     if activation_fn is not None:
       outputs = activation_fn(outputs)
     return outputs
+
 
 def fully_connected(inputs,
                     num_outputs,
@@ -373,6 +352,7 @@ def max_pool2d(inputs,
                              name=sc.name)
     return outputs
 
+
 def avg_pool2d(inputs,
                kernel_size,
                scope,
@@ -424,6 +404,7 @@ def max_pool3d(inputs,
                                name=sc.name)
     return outputs
 
+
 def avg_pool3d(inputs,
                kernel_size,
                scope,
@@ -468,16 +449,16 @@ def batch_norm_template(inputs, is_training, scope, moments_dims, bn_decay):
   """
   with tf.variable_scope(scope) as sc:
     num_channels = inputs.get_shape()[-1].value
-    beta = tf.Variable(tf.constant(0.0, shape=[num_channels]),
-                       name='beta', trainable=True)
-    gamma = tf.Variable(tf.constant(1.0, shape=[num_channels]),
-                        name='gamma', trainable=True)
+    beta = tf.Variable(tf.constant(0.0, shape=[num_channels]), name='beta', trainable=True)
+    gamma = tf.Variable(tf.constant(1.0, shape=[num_channels]), name='gamma', trainable=True)
     batch_mean, batch_var = tf.nn.moments(inputs, moments_dims, name='moments')
     decay = bn_decay if bn_decay is not None else 0.9
     ema = tf.train.ExponentialMovingAverage(decay=decay)
     # Operator that maintains moving averages of variables.
+    # # 注意： tf.cond 的两个分支需要有相同的返回类型。 并且，无论执行哪个分支，两个分支都需要提前准备好。
+    # # ema.apply 返回的是一个执行 指数滑动平均 的操作。
     ema_apply_op = tf.cond(is_training,
-                           lambda: ema.apply([batch_mean, batch_var]),
+                           lambda: ema.apply([batch_mean, batch_var]),  # # 这里的 lambda 是不需要参数
                            lambda: tf.no_op())
     
     # Update moving average and return current batch's avg and var.
@@ -486,8 +467,9 @@ def batch_norm_template(inputs, is_training, scope, moments_dims, bn_decay):
         return tf.identity(batch_mean), tf.identity(batch_var)
     
     # ema.average returns the Variable holding the average of var.
-    mean, var = tf.cond(is_training,
-                        mean_var_with_update,
+    # # 每次训练的时候，batch_mean 与 batch_var 都会使用 EMA 进行更新，并且将当前batch_mean 与 batch_var作为 BN 层参数。
+    # # 在不进行训练的时候，取出batch_mean, batch_var 作为 mean 和 var 作为 bn 层的两个参数。
+    mean, var = tf.cond(is_training, mean_var_with_update,
                         lambda: (ema.average(batch_mean), ema.average(batch_var)))
     normed = tf.nn.batch_normalization(inputs, mean, var, beta, gamma, 1e-3)
   return normed
@@ -521,21 +503,18 @@ def batch_norm_for_conv1d(inputs, is_training, bn_decay, scope):
   return batch_norm_template(inputs, is_training, scope, [0,1], bn_decay)
 
 
-
-  
 def batch_norm_for_conv2d(inputs, is_training, bn_decay, scope):
   """ Batch normalization on 2D convolutional maps.
   
   Args:
       inputs:      Tensor, 4D BHWC input maps
       is_training: boolean tf.Varialbe, true indicates training phase
-      bn_decay:    float or float tensor variable, controling moving average weight
+      bn_decay:    float or float tensor variable, controlling moving average weight
       scope:       string, variable scope
   Return:
       normed:      batch-normalized maps
   """
-  return batch_norm_template(inputs, is_training, scope, [0,1,2], bn_decay)
-
+  return batch_norm_template(inputs, is_training, scope, [0, 1, 2], bn_decay)
 
 
 def batch_norm_for_conv3d(inputs, is_training, bn_decay, scope):
