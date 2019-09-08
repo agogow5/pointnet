@@ -156,6 +156,8 @@ def conv2d(inputs,
       return outputs
 
 
+# # 反卷积 一般称作 transpose conv， 而非 deconv。
+# # 这是一种上采样的过程。
 def conv2d_transpose(inputs,
                      num_output_channels,
                      kernel_size,
@@ -194,8 +196,7 @@ def conv2d_transpose(inputs,
   with tf.variable_scope(scope) as sc:
       kernel_h, kernel_w = kernel_size
       num_in_channels = inputs.get_shape()[-1].value
-      kernel_shape = [kernel_h, kernel_w,
-                      num_output_channels, num_in_channels] # reversed to conv2d
+      kernel_shape = [kernel_h, kernel_w, num_output_channels, num_in_channels]  # reversed to conv2d # 这里注意，HWOI
       kernel = _variable_with_weight_decay('weights',
                                            shape=kernel_shape,
                                            use_xavier=use_xavier,
@@ -219,11 +220,8 @@ def conv2d_transpose(inputs,
       out_width = get_deconv_dim(width, stride_w, kernel_w, padding)
       output_shape = [batch_size, out_height, out_width, num_output_channels]
 
-      outputs = tf.nn.conv2d_transpose(inputs, kernel, output_shape,
-                             [1, stride_h, stride_w, 1],
-                             padding=padding)
-      biases = _variable_on_cpu('biases', [num_output_channels],
-                                tf.constant_initializer(0.0))
+      outputs = tf.nn.conv2d_transpose(inputs, kernel, output_shape, [1, stride_h, stride_w, 1], padding=padding)
+      biases = _variable_on_cpu('biases', [num_output_channels], tf.constant_initializer(0.0))
       outputs = tf.nn.bias_add(outputs, biases)
 
       if bn:
@@ -309,16 +307,14 @@ def fully_connected(inputs,
   """
   with tf.variable_scope(scope) as sc:
     num_input_units = inputs.get_shape()[-1].value
-    weights = _variable_with_weight_decay('weights',
-                                          shape=[num_input_units, num_outputs],
-                                          use_xavier=use_xavier,
-                                          stddev=stddev,
-                                          wd=weight_decay)
+    weights = _variable_with_weight_decay('weights', shape=[num_input_units, num_outputs], use_xavier=use_xavier,
+                                          stddev=stddev, wd=weight_decay)
     outputs = tf.matmul(inputs, weights)
-    biases = _variable_on_cpu('biases', [num_outputs],
-                             tf.constant_initializer(0.0))
+    biases = _variable_on_cpu('biases', [num_outputs], tf.constant_initializer(0.0))
     outputs = tf.nn.bias_add(outputs, biases)
-     
+
+    # # NO ==>> num_outputs
+    # # 输入情况： BxN  * NxNO   -->> BxNO
     if bn:
       outputs = batch_norm_for_fc(outputs, is_training, bn_decay, 'bn')
 
@@ -327,6 +323,7 @@ def fully_connected(inputs,
     return outputs
 
 
+# # 直接调用 tf 的API
 def max_pool2d(inputs,
                kernel_size,
                scope,
@@ -353,6 +350,7 @@ def max_pool2d(inputs,
     return outputs
 
 
+# # 直接调用 tf 的API
 def avg_pool2d(inputs,
                kernel_size,
                scope,
@@ -379,6 +377,7 @@ def avg_pool2d(inputs,
     return outputs
 
 
+# # 直接调用 tf 的API
 def max_pool3d(inputs,
                kernel_size,
                scope,
@@ -405,6 +404,7 @@ def max_pool3d(inputs,
     return outputs
 
 
+# # 直接调用 tf 的API
 def avg_pool3d(inputs,
                kernel_size,
                scope,
@@ -429,9 +429,6 @@ def avg_pool3d(inputs,
                                padding=padding,
                                name=sc.name)
     return outputs
-
-
-
 
 
 def batch_norm_template(inputs, is_training, scope, moments_dims, bn_decay):

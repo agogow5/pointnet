@@ -1,6 +1,8 @@
 import tensorflow as tf
 import numpy as np
 
+# 这是 tf.nn.sparse_softmax_cross_entropy_with_logits 函数的手工验证程序
+
 batch_size = 50
 num_class = 40
 

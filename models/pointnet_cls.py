@@ -24,21 +24,19 @@ def get_model(point_cloud, is_training, bn_decay=None):
     num_point = point_cloud.get_shape()[1].value
     end_points = {}
 
-    with tf.variable_scope('transform_net1') as sc:
+    with tf.variable_scope('transform_net1') as sc:  # # 使用 scope， 一方面可以实现共享，一方面避免冲突。
         transform = input_transform_net(point_cloud, is_training, bn_decay, K=3)
-    point_cloud_transformed = tf.matmul(point_cloud, transform)
-    input_image = tf.expand_dims(point_cloud_transformed, -1)
+    point_cloud_transformed = tf.matmul(point_cloud, transform)  # # transformed shape: BxNx3
+    input_image = tf.expand_dims(point_cloud_transformed, -1)  # # shape: BxNx3x1
 
-    net = tf_util.conv2d(input_image, 64, [1,3],
-                         padding='VALID', stride=[1,1],
-                         bn=True, is_training=is_training,
-                         scope='conv1', bn_decay=bn_decay)
-    net = tf_util.conv2d(net, 64, [1,1],
-                         padding='VALID', stride=[1,1],
-                         bn=True, is_training=is_training,
-                         scope='conv2', bn_decay=bn_decay)
+    # # 使用 conv2d 完成 mlp (64, 64)
+    net = tf_util.conv2d(input_image, 64, [1, 3], padding='VALID', stride=[1, 1],
+                         # # 这里的 kernel size = [1, 3], 3表示 BxNx3x1中的3，将其转成一行。 输出 shape: BxNx1x64
+                         bn=True, is_training=is_training, scope='conv1', bn_decay=bn_decay)
+    net = tf_util.conv2d(net, 64, [1, 1], padding='VALID', stride=[1,1],  # # 输出 shape: BxNx1x64
+                         bn=True, is_training=is_training, scope='conv2', bn_decay=bn_decay)
 
-    with tf.variable_scope('transform_net2') as sc:
+    with tf.variable_scope('transform_net2') as sc:  # # 与 transform_net1 的 scope 区分开来
         transform = feature_transform_net(net, is_training, bn_decay, K=64)
     end_points['transform'] = transform
     net_transformed = tf.matmul(tf.squeeze(net, axis=[2]), transform)
