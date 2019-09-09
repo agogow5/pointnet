@@ -31,42 +31,35 @@ def get_model(point_cloud, is_training, bn_decay=None):
     point_cloud_transformed = tf.matmul(point_cloud, transform)
     input_image = tf.expand_dims(point_cloud_transformed, -1)
 
-    net = tf_util.conv2d(input_image, 64, [1,3],
-                         padding='VALID', stride=[1,1],
-                         bn=True, is_training=is_training,
+    net = tf_util.conv2d(input_image, 64, [1, 3], padding='VALID', stride=[1,1], bn=True, is_training=is_training,
                          scope='conv1', bn_decay=bn_decay)
-    net = tf_util.conv2d(net, 64, [1,1],
-                         padding='VALID', stride=[1,1],
-                         bn=True, is_training=is_training,
+    net = tf_util.conv2d(net, 64, [1,1], padding='VALID', stride=[1, 1], bn=True, is_training=is_training,
                          scope='conv2', bn_decay=bn_decay)
 
     with tf.variable_scope('transform_net2') as sc:
         transform = feature_transform_net(net, is_training, bn_decay, K=64)
     end_points['transform'] = transform
-    net_transformed = tf.matmul(tf.squeeze(net, axis=[2]), transform)
+    net_transformed = tf.matmul(tf.squeeze(net, axis=[2]), transform)  # # net 的 shape: BxNx1x64， 需要把 大小为1的维度去掉
     point_feat = tf.expand_dims(net_transformed, [2])
-    print(point_feat)
+    print(point_feat)  # #shape: BxNx1x64
 
-    net = tf_util.conv2d(point_feat, 64, [1,1],
-                         padding='VALID', stride=[1,1],
-                         bn=True, is_training=is_training,
+    net = tf_util.conv2d(point_feat, 64, [1, 1], padding='VALID', stride=[1,1], bn=True, is_training=is_training,
                          scope='conv3', bn_decay=bn_decay)
-    net = tf_util.conv2d(net, 128, [1,1],
-                         padding='VALID', stride=[1,1],
-                         bn=True, is_training=is_training,
+    net = tf_util.conv2d(net, 128, [1,1], padding='VALID', stride=[1, 1], bn=True, is_training=is_training,
                          scope='conv4', bn_decay=bn_decay)
-    net = tf_util.conv2d(net, 1024, [1,1],
-                         padding='VALID', stride=[1,1],
-                         bn=True, is_training=is_training,
-                         scope='conv5', bn_decay=bn_decay)
-    global_feat = tf_util.max_pool2d(net, [num_point,1],
-                                     padding='VALID', scope='maxpool')
+    net = tf_util.conv2d(net, 1024, [1,1], padding='VALID', stride=[1,1], bn=True, is_training=is_training,
+                         scope='conv5', bn_decay=bn_decay)  # #shape: BxNx1x1024
+    global_feat = tf_util.max_pool2d(net, [num_point,1], padding='VALID', scope='maxpool')  # #shape: Bx1x1x1024
     print(global_feat)
 
     global_feat_expand = tf.tile(global_feat, [1, num_point, 1, 1])
-    concat_feat = tf.concat(3, [point_feat, global_feat_expand])
+    # # 在第1个维度上复制 N 次，shape: BxNx1x1024 与 point_feat 的数据形状类似 BxNx1x64
+    # concat_feat = tf.concat(3, [point_feat, global_feat_expand])
+    concat_feat = tf.concat([point_feat, global_feat_expand], 3)  # # tf1.14版本与之前的tf.concat 参数顺序不一样。
     print(concat_feat)
 
+
+    # # input shape: BxNx1x1088
     net = tf_util.conv2d(concat_feat, 512, [1,1],
                          padding='VALID', stride=[1,1],
                          bn=True, is_training=is_training,
@@ -86,8 +79,8 @@ def get_model(point_cloud, is_training, bn_decay=None):
 
     net = tf_util.conv2d(net, 50, [1,1],
                          padding='VALID', stride=[1,1], activation_fn=None,
-                         scope='conv10')
-    net = tf.squeeze(net, [2]) # BxNxC
+                         scope='conv10') # # output shape: BxNx1x50
+    net = tf.squeeze(net, [2])  # BxNxC
 
     return net, end_points
 
@@ -97,7 +90,9 @@ def get_loss(pred, label, end_points, reg_weight=0.001):
         label: BxN, """
     loss = tf.nn.sparse_softmax_cross_entropy_with_logits(logits=pred, labels=label)
     classify_loss = tf.reduce_mean(loss)
-    tf.scalar_summary('classify loss', classify_loss)
+    # tf.scalar_summary('classify loss', classify_loss)
+    tf.summary.scalar('classify loss', classify_loss)  # # 发生改变
+
 
     # Enforce the transformation as orthogonal matrix
     transform = end_points['transform'] # BxKxK
@@ -105,7 +100,8 @@ def get_loss(pred, label, end_points, reg_weight=0.001):
     mat_diff = tf.matmul(transform, tf.transpose(transform, perm=[0,2,1]))
     mat_diff -= tf.constant(np.eye(K), dtype=tf.float32)
     mat_diff_loss = tf.nn.l2_loss(mat_diff) 
-    tf.scalar_summary('mat_loss', mat_diff_loss)
+    # tf.scalar_summary('mat_loss', mat_diff_loss)
+    tf.summary.scalar('mat_loss', mat_diff_loss)
 
     return classify_loss + mat_diff_loss * reg_weight
 

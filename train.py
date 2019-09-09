@@ -18,7 +18,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--gpu', type=int, default=0, help='GPU to use [default: GPU 0]')
 parser.add_argument('--model', default='pointnet_cls', help='Model name: pointnet_cls or pointnet_cls_basic [default: pointnet_cls]')
 parser.add_argument('--log_dir', default='log', help='Log dir [default: log]')
-parser.add_argument('--num_point', type=int, default=1024, help='Point Number [256/512/1024/2048] [default: 1024]')
+parser.add_argument('--num_point', type=int, default=2048, help='Point Number [256/512/1024/2048] [default: 1024]')  # # 这里将参数手动改成2048， 因为数据集中每个模型都有2048个点。
 parser.add_argument('--max_epoch', type=int, default=250, help='Epoch to run [default: 250]')
 parser.add_argument('--batch_size', type=int, default=32, help='Batch Size during training [default: 32]')
 parser.add_argument('--learning_rate', type=float, default=0.001, help='Initial learning rate [default: 0.001]')
@@ -41,6 +41,7 @@ DECAY_RATE = FLAGS.decay_rate
 
 MODEL = importlib.import_module(FLAGS.model)  # import network module # 动态导入模块
 MODEL_FILE = os.path.join(BASE_DIR, 'models', FLAGS.model+'.py')
+
 # # 备份
 LOG_DIR = FLAGS.log_dir
 if not os.path.exists(LOG_DIR): os.mkdir(LOG_DIR)
@@ -60,11 +61,16 @@ BN_DECAY_CLIP = 0.99
 HOSTNAME = socket.gethostname()
 
 # ModelNet40 official train/test split
+# # TRAIN_FILES 是 list
+# ['data/modelnet40_ply_hdf5_2048/ply_data_train0.h5', 'data/modelnet40_ply_hdf5_2048/ply_data_train1.h5',
+#  'data/modelnet40_ply_hdf5_2048/ply_data_train2.h5', 'data/modelnet40_ply_hdf5_2048/ply_data_train3.h5',
+#  'data/modelnet40_ply_hdf5_2048/ply_data_train4.h5']
 TRAIN_FILES = provider.getDataFiles( \
-    os.path.join(BASE_DIR, 'data/modelnet40_ply_hdf5_2048/train_files.txt'))  # #需要注意：在 linux 和 win 两种情况下路径的不同写法。 这里是适用于 linux 的写法。
+    # os.path.join(BASE_DIR, 'data/modelnet40_ply_hdf5_2048/train_files.txt'))  # #需要注意：在 linux 和 win 两种情况下路径的不同写法。 这里是适用于 linux 的写法。
+    os.path.join(BASE_DIR, 'data\\modelnet40_ply_hdf5_2048\\train_files.txt'))
 TEST_FILES = provider.getDataFiles(\
-    os.path.join(BASE_DIR, 'data/modelnet40_ply_hdf5_2048/test_files.txt'))
-
+    # os.path.join(BASE_DIR, 'data/modelnet40_ply_hdf5_2048/test_files.txt'))
+    os.path.join(BASE_DIR, 'data\\modelnet40_ply_hdf5_2048\\test_files.txt'))
 
 def log_string(out_str):
     LOG_FOUT.write(out_str+'\n')
@@ -79,14 +85,14 @@ def get_learning_rate(batch):
                         DECAY_STEP,          # Decay step.
                         DECAY_RATE,          # Decay rate.
                         staircase=True)
-    learning_rate = tf.maximum(learning_rate, 0.00001) # CLIP THE LEARNING RATE!
+    learning_rate = tf.maximum(learning_rate, 0.00001)  # CLIP THE LEARNING RATE!
     return learning_rate        
 
 
 def get_bn_decay(batch):
     bn_momentum = tf.train.exponential_decay(
                       BN_INIT_DECAY,
-                      batch*BATCH_SIZE,
+                      batch * BATCH_SIZE,
                       BN_DECAY_DECAY_STEP,
                       BN_DECAY_DECAY_RATE,
                       staircase=True)
@@ -113,6 +119,7 @@ def train():
             tf.summary.scalar('loss', loss)
 
             correct = tf.equal(tf.argmax(pred, 1), tf.to_int64(labels_pl))
+            # # 注意查看这边 labels_pl  的 type, 根据代码推测应该是 [batch_size]，而不是[batch_size, 1]
             accuracy = tf.reduce_sum(tf.cast(correct, tf.float32)) / float(BATCH_SIZE)
             tf.summary.scalar('accuracy', accuracy)
 
@@ -129,17 +136,17 @@ def train():
             saver = tf.train.Saver()
             
         # Create a session
+        # # 配置 session 参数
         config = tf.ConfigProto()
-        config.gpu_options.allow_growth = True
-        config.allow_soft_placement = True
-        config.log_device_placement = False
+        config.gpu_options.allow_growth = True  # # 让TensorFlow在运行过程中动态申请显存，需要多少就申请多少;
+        config.allow_soft_placement = True  # # 自动选择运行设备
+        config.log_device_placement = False  # # 不记录设备指派情况
         sess = tf.Session(config=config)
 
         # Add summary writers
         # merged = tf.merge_all_summaries()
-        merged = tf.summary.merge_all()
-        train_writer = tf.summary.FileWriter(os.path.join(LOG_DIR, 'train'),
-                                  sess.graph)
+        merged = tf.summary.merge_all()  # # 将所有的 summary 都 merge 到一起
+        train_writer = tf.summary.FileWriter(os.path.join(LOG_DIR, 'train'), sess.graph)
         test_writer = tf.summary.FileWriter(os.path.join(LOG_DIR, 'test'))
 
         # Init variables
@@ -166,7 +173,7 @@ def train():
             eval_one_epoch(sess, ops, test_writer)
             
             # Save the variables to disk.
-            if epoch % 10 == 0:
+            if epoch % 1 == 0:
                 save_path = saver.save(sess, os.path.join(LOG_DIR, "model.ckpt"))
                 log_string("Model saved in file: %s" % save_path)
 
@@ -177,12 +184,14 @@ def train_one_epoch(sess, ops, train_writer):
     
     # Shuffle train files
     train_file_idxs = np.arange(0, len(TRAIN_FILES))
-    np.random.shuffle(train_file_idxs)
+    np.random.shuffle(train_file_idxs)  # # 直接在 train_file_idxs 上进行打乱
     
     for fn in range(len(TRAIN_FILES)):
         log_string('----' + str(fn) + '-----')
         current_data, current_label = provider.loadDataFile(TRAIN_FILES[train_file_idxs[fn]])
+        # # print('current_data: ', np.shape(current_data))
         current_data = current_data[:,0:NUM_POINT,:]
+        # # print('current_data: ', np.shape(current_data))
         current_data, current_label, _ = provider.shuffle_data(current_data, np.squeeze(current_label))            
         current_label = np.squeeze(current_label)
         
@@ -203,6 +212,7 @@ def train_one_epoch(sess, ops, train_writer):
             feed_dict = {ops['pointclouds_pl']: jittered_data,
                          ops['labels_pl']: current_label[start_idx:end_idx],
                          ops['is_training_pl']: is_training,}
+            # # ops 是把之前 placeholder 的位置传进来
             summary, step, _, loss_val, pred_val = sess.run([ops['merged'], ops['step'],
                 ops['train_op'], ops['loss'], ops['pred']], feed_dict=feed_dict)
             train_writer.add_summary(summary, step)
@@ -228,7 +238,9 @@ def eval_one_epoch(sess, ops, test_writer):
     for fn in range(len(TEST_FILES)):
         log_string('----' + str(fn) + '-----')
         current_data, current_label = provider.loadDataFile(TEST_FILES[fn])
+
         current_data = current_data[:,0:NUM_POINT,:]
+
         current_label = np.squeeze(current_label)
         
         file_size = current_data.shape[0]

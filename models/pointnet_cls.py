@@ -39,7 +39,7 @@ def get_model(point_cloud, is_training, bn_decay=None):
     with tf.variable_scope('transform_net2') as sc:  # # 与 transform_net1 的 scope 区分开来
         transform = feature_transform_net(net, is_training, bn_decay, K=64)
     end_points['transform'] = transform
-    net_transformed = tf.matmul(tf.squeeze(net, axis=[2]), transform)
+    net_transformed = tf.matmul(tf.squeeze(net, axis=[2]), transform)  # # net 的 shape: BxNx1x64， 需要把 大小为1的维度去掉
     net_transformed = tf.expand_dims(net_transformed, [2])
 
     net = tf_util.conv2d(net_transformed, 64, [1,1],
@@ -56,8 +56,7 @@ def get_model(point_cloud, is_training, bn_decay=None):
                          scope='conv5', bn_decay=bn_decay)
 
     # Symmetric function: max pooling
-    net = tf_util.max_pool2d(net, [num_point,1],
-                             padding='VALID', scope='maxpool')
+    net = tf_util.max_pool2d(net, [num_point,1], padding='VALID', scope='maxpool')
 
     net = tf.reshape(net, [batch_size, -1])
     net = tf_util.fully_connected(net, 512, bn=True, is_training=is_training,
@@ -81,6 +80,7 @@ def get_loss(pred, label, end_points, reg_weight=0.001):
     tf.summary.scalar('classify loss', classify_loss)
 
     # Enforce the transformation as orthogonal matrix
+    # # 这里加个 mat_diff_loss 的目的是为了使得 transform 接近正交矩阵
     transform = end_points['transform'] # BxKxK
     K = transform.get_shape()[1].value
     mat_diff = tf.matmul(transform, tf.transpose(transform, perm=[0,2,1]))

@@ -2,11 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="08b16c17-d5e1-488e-b6bf-092b0ce09fe0" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/events.out.tfevents.1567856133.DESKTOP-SOGDI2O" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/events.out.tfevents.1567856848.DESKTOP-SOGDI2O" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/events.out.tfevents.1567857096.DESKTOP-SOGDI2O" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/models/pointnet_cls.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/pointnet_cls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/transform_nets.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/transform_nets.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/pointnet_seg.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/pointnet_seg.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/provider.py" beforeDir="false" afterPath="$PROJECT_DIR$/provider.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sparse_cross_entropy_validation.py" beforeDir="false" afterPath="$PROJECT_DIR$/sparse_cross_entropy_validation.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/tf_util.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/tf_util.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/train.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -19,7 +23,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/part_seg/train.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
+            <state relative-caret-position="-9991">
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -28,21 +32,9 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/models/transform_nets.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="690">
-              <caret line="47" lean-forward="true" selection-start-line="47" selection-end-line="47" />
-              <folding>
-                <element signature="e#0#23#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/utils/tf_util.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="780">
+            <state relative-caret-position="-1685">
               <caret line="141" column="78" selection-start-line="141" selection-start-column="59" selection-end-line="141" selection-end-column="78" />
               <folding>
                 <element signature="e#0#91#1" />
@@ -68,9 +60,7 @@
                 <element signature="e#10217#10393#1" />
                 <element signature="e#10437#11180#0" />
                 <element signature="e#10853#10855#0" />
-                <element signature="e#11321#11864#0" />
                 <element signature="e#11321#11483#1" />
-                <element signature="e#11527#11864#0" />
                 <element signature="e#12005#12548#0" />
                 <element signature="e#12005#12167#1" />
                 <element signature="e#12211#12548#0" />
@@ -103,24 +93,19 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/provider.py">
+        <entry file="file://$PROJECT_DIR$/utils/eulerangles.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="749">
-              <caret line="99" column="28" selection-start-line="98" selection-start-column="27" selection-end-line="99" selection-end-column="28" />
-              <folding>
-                <element signature="e#0#9#0" expanded="true" />
-              </folding>
-            </state>
+            <state relative-caret-position="-3690" />
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/train.py">
+        <entry file="file://$PROJECT_DIR$/models/pointnet_seg.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2790">
-              <caret line="101" column="33" selection-start-line="101" selection-start-column="33" selection-end-line="101" selection-end-column="33" />
+            <state relative-caret-position="329">
+              <caret line="103" column="48" selection-start-line="103" selection-start-column="48" selection-end-line="103" selection-end-column="48" />
               <folding>
-                <element signature="e#0#15#0" expanded="true" />
+                <element signature="e#0#23#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -129,8 +114,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/models/pointnet_cls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="752">
-              <caret line="79" column="20" lean-forward="true" selection-start-line="79" selection-start-column="20" selection-end-line="79" selection-end-column="40" />
+            <state relative-caret-position="419">
+              <caret line="88" column="21" selection-start-line="88" selection-start-column="4" selection-end-line="88" selection-end-column="21" />
               <folding>
                 <element signature="e#0#23#0" expanded="true" />
               </folding>
@@ -139,10 +124,51 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test.py">
+        <entry file="file://$PROJECT_DIR$/provider.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="600">
-              <caret line="20" lean-forward="true" selection-start-line="20" selection-end-line="20" />
+            <state relative-caret-position="259">
+              <caret line="43" column="24" selection-start-line="43" selection-start-column="22" selection-end-line="43" selection-end-column="24" />
+              <folding>
+                <element signature="e#360#611#0" />
+                <element signature="e#650#839#1" />
+                <element signature="e#986#1247#1" />
+                <element signature="e#1361#1772#0" />
+                <element signature="e#1525#1651#0" />
+                <element signature="e#1864#2625#0" />
+                <element signature="e#1864#2075#1" />
+                <element signature="e#2189#2601#0" />
+                <element signature="e#2354#2480#0" />
+                <element signature="e#2691#3075#0" />
+                <element signature="e#2691#2889#1" />
+                <element signature="e#3278#3435#0" />
+                <element signature="e#3408#3534#0" />
+                <element signature="e#3578#3617#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/train.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="259">
+              <caret line="120" column="74" lean-forward="true" selection-start-line="120" selection-start-column="74" selection-end-line="120" selection-end-column="74" />
+              <folding>
+                <element signature="e#0#15#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/part_seg/download_data.sh">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/part_seg/pointnet_part_seg.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1710">
               <folding>
                 <element signature="e#0#23#0" expanded="true" />
               </folding>
@@ -150,13 +176,12 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/sparse_cross_entropy_validation.py">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/utils/pc_util.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="3" column="61" selection-start-line="3" selection-start-column="61" selection-end-line="3" selection-end-column="61" />
+            <state relative-caret-position="-2430">
               <folding>
-                <element signature="e#0#23#0" expanded="true" />
+                <element signature="e#107#116#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -175,6 +200,16 @@
     <findStrings>
       <find>sess</find>
       <find>assert</find>
+      <find>contrib</find>
+      <find>epoch</find>
+      <find>EPOCH</find>
+      <find>is_training_pl</find>
+      <find>TRAIN_FILES</find>
+      <find>current_data</find>
+      <find>NUM_POINT</find>
+      <find>BATCH_SIZE</find>
+      <find>ze</find>
+      <find>model</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -183,14 +218,14 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/provider.py" />
-        <option value="$PROJECT_DIR$/train.py" />
-        <option value="$PROJECT_DIR$/models/pointnet_seg.py" />
         <option value="$PROJECT_DIR$/utils/tf_util.py" />
         <option value="$PROJECT_DIR$/models/transform_nets.py" />
-        <option value="$PROJECT_DIR$/models/pointnet_cls.py" />
-        <option value="$PROJECT_DIR$/test.py" />
         <option value="$PROJECT_DIR$/sparse_cross_entropy_validation.py" />
+        <option value="$PROJECT_DIR$/test.py" />
+        <option value="$PROJECT_DIR$/provider.py" />
+        <option value="$PROJECT_DIR$/models/pointnet_cls.py" />
+        <option value="$PROJECT_DIR$/train.py" />
+        <option value="$PROJECT_DIR$/models/pointnet_seg.py" />
       </list>
     </option>
   </component>
@@ -220,6 +255,11 @@
             <path>
               <item name="pointnet" type="b2602c69:ProjectViewProjectNode" />
               <item name="pointnet" type="462c0819:PsiDirectoryNode" />
+              <item name="part_seg" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="pointnet" type="b2602c69:ProjectViewProjectNode" />
+              <item name="pointnet" type="462c0819:PsiDirectoryNode" />
               <item name="utils" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
@@ -232,7 +272,7 @@
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/provider.py" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
@@ -255,7 +295,29 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Python.train">
+    <configuration name="provider" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="pointnet" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\MingxianLin\AppData\Local\Programs\Python\Python36\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/provider.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="test" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="pointnet" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -278,6 +340,33 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="train" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="pointnet" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\MingxianLin\AppData\Local\Programs\Python\Python36\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/train.py" />
+      <option name="PARAMETERS" value="--model=pointnet_seg" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Python.test" />
+      <item itemvalue="Python.train" />
+      <item itemvalue="Python.provider" />
+    </list>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -290,23 +379,22 @@
       <option name="presentableId" value="Default" />
       <updated>1567744228665</updated>
       <workItem from="1567744229853" duration="53619000" />
-      <workItem from="1567908351358" duration="14707000" />
+      <workItem from="1567908351358" duration="47937000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="68326000" />
+    <option name="totallyTimeSpent" value="101556000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="2576" height="1416" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.12758346" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.3299532" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.3299532" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -328,50 +416,14 @@
     <option name="version" value="1" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/pointnet$test.coverage" NAME="test Coverage Results" MODIFIED="1567929522419" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/pointnet$pointnet_cls.coverage" NAME="train Coverage Results" MODIFIED="1568037172788" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/pointnet$provider.coverage" NAME="provider Coverage Results" MODIFIED="1567997558172" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/pointnet$test.coverage" NAME="test Coverage Results" MODIFIED="1567931127142" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/models/pointnet_seg.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="13" selection-end-line="117" />
-          <folding>
-            <element signature="e#0#23#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/part_seg/train.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/train.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2790">
-          <caret line="101" column="33" selection-start-line="101" selection-start-column="33" selection-end-line="101" selection-end-column="33" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/utils/plyfile.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-19620" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/utils/pc_util.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#107#116#0" expanded="true" />
-          </folding>
-        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/models/pointnet_cls_basic.py">
@@ -383,19 +435,69 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/transform_nets.py">
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36/Lib/site-packages/tensorflow/python/framework/dtypes.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="690">
-          <caret line="47" lean-forward="true" selection-start-line="47" selection-end-line="47" />
+        <state relative-caret-position="187">
+          <caret line="329" selection-start-line="329" selection-end-line="329" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sparse_cross_entropy_validation.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="6" column="38" selection-start-line="6" selection-start-column="38" selection-end-line="6" selection-end-column="38" />
           <folding>
             <element signature="e#0#23#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/sem_seg/model.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1591">
+          <folding>
+            <element signature="e#0#23#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="9" column="39" selection-start-line="9" selection-start-column="39" selection-end-line="9" selection-end-column="39" />
+          <folding>
+            <element signature="e#0#23#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/transform_nets.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1410">
+          <caret line="47" selection-start-line="47" selection-end-line="47" />
+          <folding>
+            <element signature="e#0#23#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluate.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-961">
+          <folding>
+            <element signature="e#0#23#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/utils/eulerangles.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3690" />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/utils/tf_util.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="780">
+        <state relative-caret-position="-1685">
           <caret line="141" column="78" selection-start-line="141" selection-start-column="59" selection-end-line="141" selection-end-column="78" />
           <folding>
             <element signature="e#0#91#1" />
@@ -421,9 +523,7 @@
             <element signature="e#10217#10393#1" />
             <element signature="e#10437#11180#0" />
             <element signature="e#10853#10855#0" />
-            <element signature="e#11321#11864#0" />
             <element signature="e#11321#11483#1" />
-            <element signature="e#11527#11864#0" />
             <element signature="e#12005#12548#0" />
             <element signature="e#12005#12167#1" />
             <element signature="e#12211#12548#0" />
@@ -456,47 +556,83 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/provider.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="749">
-          <caret line="99" column="28" selection-start-line="98" selection-start-column="27" selection-end-line="99" selection-end-column="28" />
+        <state relative-caret-position="259">
+          <caret line="43" column="24" selection-start-line="43" selection-start-column="22" selection-end-line="43" selection-end-column="24" />
           <folding>
-            <element signature="e#0#9#0" expanded="true" />
+            <element signature="e#360#611#0" />
+            <element signature="e#650#839#1" />
+            <element signature="e#986#1247#1" />
+            <element signature="e#1361#1772#0" />
+            <element signature="e#1525#1651#0" />
+            <element signature="e#1864#2625#0" />
+            <element signature="e#1864#2075#1" />
+            <element signature="e#2189#2601#0" />
+            <element signature="e#2354#2480#0" />
+            <element signature="e#2691#3075#0" />
+            <element signature="e#2691#2889#1" />
+            <element signature="e#3278#3435#0" />
+            <element signature="e#3408#3534#0" />
+            <element signature="e#3578#3617#0" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/models/pointnet_cls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="752">
-          <caret line="79" column="20" lean-forward="true" selection-start-line="79" selection-start-column="20" selection-end-line="79" selection-end-column="40" />
+        <state relative-caret-position="419">
+          <caret line="88" column="21" selection-start-line="88" selection-start-column="4" selection-end-line="88" selection-end-column="21" />
           <folding>
             <element signature="e#0#23#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36/Lib/site-packages/tensorflow/python/framework/dtypes.py">
+    <entry file="file://$PROJECT_DIR$/models/pointnet_seg.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="329" selection-start-line="329" selection-end-line="329" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="600">
-          <caret line="20" lean-forward="true" selection-start-line="20" selection-end-line="20" />
+        <state relative-caret-position="329">
+          <caret line="103" column="48" selection-start-line="103" selection-start-column="48" selection-end-line="103" selection-end-column="48" />
           <folding>
             <element signature="e#0#23#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sparse_cross_entropy_validation.py">
+    <entry file="file://$PROJECT_DIR$/utils/pc_util.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="3" column="61" selection-start-line="3" selection-start-column="61" selection-end-line="3" selection-end-column="61" />
+        <state relative-caret-position="-2430">
+          <folding>
+            <element signature="e#107#116#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/part_seg/download_data.sh">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/part_seg/pointnet_part_seg.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1710">
           <folding>
             <element signature="e#0#23#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/part_seg/train.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-9991">
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/train.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="259">
+          <caret line="120" column="74" lean-forward="true" selection-start-line="120" selection-start-column="74" selection-end-line="120" selection-end-column="74" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
           </folding>
         </state>
       </provider>
